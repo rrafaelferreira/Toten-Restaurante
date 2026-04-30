@@ -1,18 +1,24 @@
-import './App.css'
-import { motion } from 'framer-motion';
+import { useState } from 'react'
+import ProductSection from './components/ProductSection/ProductsSection'
 import CarouselStructure from "./components/carousel/CarouselStructure";
 
-
 function App() {
-  return (
-    <div className='App'>
-      <motion.h1 animate={{ x: 200, y: 100 }}>
-        Toten de Restaurante
-      </motion.h1>
-    
-      <CarouselStructure/>
-    </div>
-  );
+
+    const [selectedCategory, setSelectedCategory] =
+        useState('hamburgers')
+
+    return (
+        <>
+            <CarouselStructure
+                selectedCategory={selectedCategory}
+                setSelectedCategory={setSelectedCategory}
+            />
+
+            <ProductSection
+                selectedCategory={selectedCategory}
+            />
+        </>
+    )
 }
 
 export default App
