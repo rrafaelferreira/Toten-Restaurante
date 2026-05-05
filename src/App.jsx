@@ -8,7 +8,7 @@ function App() {
         useState('hamburgers')
 
     return (
-        <>
+        <div className='main-app-container'>
             <CarouselStructure
                 selectedCategory={selectedCategory}
                 setSelectedCategory={setSelectedCategory}
@@ -17,7 +17,7 @@ function App() {
             <ProductSection
                 selectedCategory={selectedCategory}
             />
-        </>
+        </div>
     )
 }
 

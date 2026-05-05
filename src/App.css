@@ -1,0 +1,15 @@
+/* No App.css */
+.main-app-container {
+    background-color: #121212;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Força o carrossel a não ocupar espaço extra */
+.CarouselStructure {
+    height: auto;
+    max-height: 400px; /* Ajuste conforme a altura das suas imagens */
+    margin-bottom: 0;
+}

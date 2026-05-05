@@ -1,10 +1,10 @@
 // src/data/Products/Products.js
 
-// Importando as imagens com o caminho corrigido baseado na sua árvore de arquivos
+// Importando as imagens com os caminhos corrigidos
 import xburger from "../../assets/images/products/hamburgersimage/x-burger.jpg";
-import cocacola from "../../assets/images/products/colddrinkimage/cocacola.jpg";
+import cocacola from "../../assets/images/products/colddrinksimage/cocacola.jpg"; 
 import chocolate from "../../assets/images/products/dessertsimage/chocolate.jpg";
-import coffe from "../../assets/images/products/hotdrinkimage/coffe.jpg";
+import coffe from "../../assets/images/products/hotdrinksimage/coffe.jpg"; 
 
 export const produtos = [
     {

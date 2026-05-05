@@ -16,14 +16,15 @@ const categories = [
     { id: 'desserts', label: 'Sobremesas', img: image6 },
 ];
 
-function CarouselStructure() {
+function CarouselStructure({ selectedCategory, setSelectedCategory }) { 
     const carousel = useRef();
     const [width, setWidth] = useState(0);
-    const [selectedCategory, setSelectedCategory] = useState('hamburgers');
+
+    // REMOVA esta linha abaixo, ela está "escondendo" o estado do App.jsx:
+    // const [selectedCategory, setSelectedCategory] = useState('hamburgers'); 
 
     useEffect(() => {
         if (carousel.current) {
-            // Calcula o limite do arraste (total menos o que é visível)
             setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth);
         }
     }, []);

@@ -1,8 +1,13 @@
-.product-section{
+.product-section {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 25px;
-    margin-top: 50px;
+    /* Troque margin por padding para o fundo acompanhar */
+    padding-top: 50px; 
+    padding-bottom: 50px;
+    
+    /* Garante que ele não herde tamanhos estranhos */
+    box-sizing: border-box; 
 }
