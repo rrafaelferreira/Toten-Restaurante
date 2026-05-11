@@ -1,25 +1,27 @@
-import { useState } from 'react'
-import ProductSection from './components/ProductSection/ProductsSection'
-import CarouselStructure from "./components/carousel/CarouselStructure";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { CartProvider } from "./Shop/Context/CartContext";
+
+// Importação das páginas com os nomes exatos dos ficheiros
+import Home from "./pages/home/Home";
+import OrderType from "./pages/OrderType/OrderType";
+import Menu from "./pages/Menu/Menu";
+import ShoppingCart from "./pages/Cart/ShoppingCartt";
+
+import "./App.css";
 
 function App() {
-    const [selectedCategory, setSelectedCategory] = useState('hamburgers');
-
-    return (
-        <div className='main-app-container'>
-            {/* Criamos uma div que abraça os dois e tem o fundo preto */}
-            <div className="bg-secao-produtos" style={{ backgroundColor: '#111', minHeight: '100vh' }}>
-                <CarouselStructure
-                    selectedCategory={selectedCategory}
-                    setSelectedCategory={setSelectedCategory}
-                />
-
-                <ProductSection
-                    selectedCategory={selectedCategory}
-                />
-            </div>
-        </div>
-    );
+  return (
+    <CartProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/order-type" element={<OrderType />} />
+          <Route path="/menu" element={<Menu />} />
+          <Route path="/cart" element={<ShoppingCart />} />
+        </Routes>
+      </Router>
+    </CartProvider>
+  );
 }
 
-export default App
+export default App;

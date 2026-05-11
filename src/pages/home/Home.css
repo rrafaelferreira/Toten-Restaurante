@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+.home-container {
+  /* O gradiente cria uma película escura sobre a imagem para o texto aparecer */
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+              url('../../assets/images/global/background1.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 40px; /* Distância entre o texto e o botão */
+}
+
+.welcome-text {
+  font-family: "Poppins", sans-serif;
+  font-size: 4.5rem;
+  color: white;
+  font-weight: 700;
+  margin: 0;
+  text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.7);
+}
+
+.subtitle {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.5rem;
+  color: #efefef;
+  margin-top: 10px;
+  font-weight: 400;
+}

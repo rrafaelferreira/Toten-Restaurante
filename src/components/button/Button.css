@@ -1,0 +1,41 @@
+.custom-button {
+  width: 90%;
+  max-width: 400px;
+  padding: 18px;
+  border: none;
+  border-radius: 15px;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* BOTÃO PRINCIPAL */
+
+.custom-button {
+  background: linear-gradient(135deg, #ff3c00, #ff7b00);
+  box-shadow: 0 5px 20px rgba(255, 94, 0, 0.4);
+}
+
+/* BOTÃO VOLTAR */
+
+.custom-button.back {
+  background: #2b2b2b;
+  border: 2px solid #555;
+  box-shadow: none;
+}
+
+.custom-button:hover {
+  transform: translateY(-3px);
+}
+
+.custom-button:active {
+  transform: scale(0.97);
+}
+
+.custom-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(1); /* Opcional: deixa o botão cinza */
+}

@@ -1,0 +1,65 @@
+.order-container {
+  width: 100%;
+  height: 100vh;
+  background-image: url(../../assets/images/global/background2.jpg);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+}
+
+.order-container h1 {
+  font-size: 32px;
+}
+
+.options {
+  display: flex;
+  gap: 30px;
+}
+
+.option {
+  width: 250px;
+  height: 180px;
+  border-radius: 20px;
+  background-color: #222;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  border: 3px solid transparent;
+}
+
+.option:hover {
+  transform: scale(1.05);
+}
+
+.option.active {
+  border: 3px solid #ff7b00;
+  background-color: #2e2e2e;
+}
+
+.bottom-button {
+  position: absolute;
+  bottom: 40px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.buttons-container {
+  position: absolute;
+  bottom: 40px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.buttons-container .custom-button {
+  width: 250px;
+}

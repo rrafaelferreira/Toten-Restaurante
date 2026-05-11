@@ -1,0 +1,71 @@
+.menu-page {
+    width: 100%;
+    min-height: 100vh;
+    background-color: #111;
+    position: relative;
+}
+
+/* Estilo do Ícone do Carrinho */
+.floating-cart {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    background-color: #ff6600;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    transition: transform 0.2s;
+}
+
+.floating-cart:active {
+    transform: scale(0.9); /* Efeito de clique no totem */
+}
+
+.cart-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: white;
+    color: #ff6600;
+    font-weight: bold;
+    font-size: 1rem;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #ff6600;
+}
+
+/* Removendo zoom exagerado e preparando para o toque */
+.product-card { 
+    transition: transform 0.2s, border 0.3s ease;
+    border: 2px solid transparent;
+}
+
+/* Em vez de hover, usamos uma classe de seleção que vamos ativar no clique */
+.product-card.selected-anim {
+    border-color: #ff6600;
+    transform: scale(1.02);
+}
+
+/* O resto do seu CSS... */
+.bg-secao-produtos {
+    padding-bottom: 140px;
+}
+
+.menu-buttons {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999999;
+}
