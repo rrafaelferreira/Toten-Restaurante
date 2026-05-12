@@ -2,20 +2,21 @@
 
 .home-container {
   /* O gradiente cria uma película escura sobre a imagem para o texto aparecer */
-  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
-              url('../../assets/images/global/background1.jpg');
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../../assets/images/global/background.jpg');
   background-size: cover;
   background-position: center;
   height: 100vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
   gap: 40px; /* Distância entre o texto e o botão */
+  color: white;
 }
 
-.welcome-text {
+.iniciotext {
   font-family: "Poppins", sans-serif;
   font-size: 4.5rem;
   color: white;
@@ -31,3 +32,7 @@
   margin-top: 10px;
   font-weight: 400;
 }
+
+.start-button:active {
+    transform: scale(0.95); /* Efeito de clique para o totem */
+} 

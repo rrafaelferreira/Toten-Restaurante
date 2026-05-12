@@ -10,15 +10,14 @@ import "./menu.css";
 
 function Menu() {
   const [selectedCategory, setSelectedCategory] = useState("hamburgers");
-  const { cartItems } = useCart(); // Pegando itens para mostrar no ícone
+  const { cartItems } = useCart();
   const navigate = useNavigate();
 
-  // Calcula total de itens (ex: 2 burgers + 1 refri = 3 itens)
   const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
     <div className="menu-page">
-      {/* Ícone do Carrinho no canto superior direito */}
+      {/* Carrinho Flutuante */}
       <div className="floating-cart" onClick={() => navigate("/cart")}>
         <div className="cart-icon">
           🛒
@@ -35,8 +34,13 @@ function Menu() {
         <ProductSection selectedCategory={selectedCategory} />
       </div>
 
+      {/* Container do Botão Voltar */}
       <div className="menu-buttons">
-        <Button text="Voltar" type="back" onClick={() => navigate(-1)} />
+        <Button 
+          text="Voltar" 
+          type="back" 
+          onClick={() => navigate(-1)} 
+        />
       </div>
     </div>
   );

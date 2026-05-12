@@ -5,7 +5,7 @@ import { CartProvider } from "./Shop/Context/CartContext";
 import Home from "./pages/home/Home";
 import OrderType from "./pages/OrderType/OrderType";
 import Menu from "./pages/Menu/Menu";
-import ShoppingCart from "./pages/Cart/ShoppingCartt";
+import ShoppingCart from "./pages/Cart/ShoppingCart";
 
 import "./App.css";
 

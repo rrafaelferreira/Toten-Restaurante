@@ -1,47 +1,69 @@
-.product-card{
-    width: 260px;
-    background: #1b1b1b;
+.product-card {
+    background: #1a1a1a;
     border-radius: 20px;
-    padding: 18px;
-    color: white;
+    padding: 15px;
+    width: 260px; /* Largura fixa para manter o padrão */
+    min-height: 400px; /* Altura fixa para alinhar todos os cards */
     display: flex;
     flex-direction: column;
-    align-items: center;
-    transition: 0.3s;
+    justify-content: space-between;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
 }
 
-.product-card:hover{
-    transform: translateY(-5px);
-}
-
-.product-card img{
+.image-container {
     width: 100%;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 14px;
+    height: 180px; /* Altura fixa para as imagens */
+    border-radius: 15px;
+    overflow: hidden;
 }
 
-.product-card h2{
-    margin-top: 15px;
-    font-size: 22px;
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Garante que a foto preencha o espaço sem distorcer */
+}
+
+.product-info h3 {
+    color: white;
+    font-size: 1.2rem;
+    min-height: 3rem; /* Espaço fixo para o nome não empurrar o preço */
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
 }
 
-.product-card p{
-    margin-top: 10px;
-    color: #ffb000;
-    font-size: 20px;
+.price {
+    color: #ffb800;
     font-weight: bold;
+    font-size: 1.3rem;
+    margin: 10px 0;
+    text-align: center;
 }
 
-.product-card button{
-    margin-top: 18px;
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 12px;
-    background: #ffb000;
+/* Borda fixa laranja quando o item está no carrinho */
+.product-card.selected-anim {
+    border-color: #ff6600 !important;
+    box-shadow: 0 0 20px rgba(255, 102, 0, 0.4);
+}
+
+.add-button {
+    background-color: #ffb800;
     color: black;
+    border: none;
+    padding: 12px;
+    border-radius: 12px;
+    width: 100%;
     font-weight: bold;
+    text-transform: uppercase;
     cursor: pointer;
+}
+
+/* Estilo visual quando o item já foi selecionado */
+.add-button.btn-remove {
+    background-color: #333;
+    color: #ff6600;
+    border: 1px solid #ff6600;
 }

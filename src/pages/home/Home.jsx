@@ -8,11 +8,11 @@ function Home() {
   return (
     <div className="home-container">
       <div className="content">
-        <h1 className="welcome-text">Bateu aquela fome?</h1>
+        <h1 className="iniciotext">Bateu a fome?</h1>
         <p className="subtitle">Toque abaixo para montar seu pedido</p>
       </div>
 
-      <div className="start-button-area">
+      <div className="start-button">
         <Button
           text="Clique para Iniciar"
           onClick={() => navigate("/order-type")}
