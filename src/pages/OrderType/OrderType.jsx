@@ -32,7 +32,7 @@ function OrderType() {
         </div>
       </div>
       <div className="buttons-container">
-        <Button text="Voltar" type="back" onClick={() => navigate(-1)} />
+        <Button text="Voltar" type="back" onClick={() => navigate("/", { replace: true })} />
         <Button
           text="Próximo"
           onClick={handleNext}

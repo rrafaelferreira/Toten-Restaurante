@@ -39,7 +39,7 @@ function Menu() {
         <Button 
           text="Voltar" 
           type="back" 
-          onClick={() => navigate(-1)} 
+          onClick={() => navigate("/order-type", { replace: true })} 
         />
       </div>
     </div>
