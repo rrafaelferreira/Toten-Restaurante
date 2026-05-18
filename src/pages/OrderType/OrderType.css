@@ -2,6 +2,147 @@
   width: 100%;
   height: 100vh;
   background-image: url(../../assets/images/global/background2.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between; /* Mantém título no topo, opções no meio e botões embaixo */
+  padding: 60px 20px;
+  box-sizing: border-box;
+}
+
+.order-container h1 {
+  font-size: 36px;
+  text-align: center;
+  margin: 0;
+}
+
+/* ========================================================
+   CONFIGURAÇÃO PARA TELAS GRANDES (PC / MONITOR DO TOTEM)
+   ======================================================== */
+.options {
+  display: flex;
+  flex-direction: row;         /* Fica lado a lado no computador */
+  gap: 40px;                   /* Um espaço legal entre os dois cards */
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.option {
+  width: 280px;                /* Tamanho ideal para telas grandes */
+  height: 200px;
+  border-radius: 20px;
+  background-color: #222;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 26px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  border: 3px solid transparent;
+  text-align: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.option:hover {
+  transform: scale(1.05);
+}
+
+.option.active {
+  border: 3px solid #ff7b00;
+  background-color: #2e2e2e;
+}
+
+/* Área dos botões inferiores */
+.buttons-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  width: 100%;
+}
+
+/* Caso precise controlar o tamanho do seu componente Button no PC */
+.buttons-container button, 
+.buttons-container .custom-button {
+  width: 200px;
+}
+
+
+/* ========================================================
+   MEDIA QUERY: Ajustes automáticos apenas para o CELULAR
+   ======================================================== */
+@media (max-width: 768px) {
+  .order-container {
+    padding: 40px 20px;        /* Menos espaçamento interno no mobile */
+  }
+
+  .order-container h1 {
+    font-size: 28px;           /* Título menor no celular */
+  }
+
+  .options {
+    flex-direction: column;    /* Força ficar um embaixo do outro no celular */
+    gap: 20px;
+  }
+
+  .option {
+    width: 260px;              /* Ajusta a largura para caber nas telas dos celulares */
+    height: 130px;             /* Diminui a altura para não sumir com os botões de baixo */
+    font-size: 22px;
+  }
+
+  /* CONTAINER DOS BOTÕES NO CELULAR */
+  .buttons-container {
+    display: flex !important;
+    flex-direction: row !important;   /* Garante que fiquem lado a lado */
+    justify-content: center !important;
+    gap: 15px !important;
+    width: 100% !important;
+    max-width: 320px;                 /* Define um tamanho limite ótimo para a barra de botões */
+    margin: 0 auto !important;
+    box-sizing: border-box !important;
+  }
+
+  /* RESOLVE O TAMANHO DOS DOIS BOTÕES (INCLUINDO O DESABILITADO) */
+  .buttons-container button, 
+  .buttons-container .custom-button,
+  .buttons-container [disabled],
+  .buttons-container button:disabled {
+    flex: 1 !important;               /* Força os dois a dividirem o espaço em exatamente 50% cada */
+    width: 100% !important;           /* Faz eles obedecerem ao flexbox cooperativo */
+    max-width: 140px !important;      /* Trava a largura máxima para não esticarem demais */
+    height: 48px !important;          /* Altura idêntica para ambos */
+    font-size: 16px !important;
+    padding: 0 !important;            /* Limpa paddings internos que distorcem o tamanho por causa do texto */
+    text-align: center !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* .order-container {
+  width: 100%;
+  height: 100vh;
+  background-image: url(../../assets/images/global/background2.jpg);
   color: white;
   display: flex;
   flex-direction: column;
@@ -62,4 +203,4 @@
 
 .buttons-container .custom-button {
   width: 250px;
-}
+} */

@@ -92,7 +92,7 @@ export const produtos = [
     },
     {
         id: 4.1,
-        nome: "Drink de Laranja",
+        name: "Drink de Laranja",
         category: "drinks",
         price: 13.00,
         image: DrinkdeLaranja

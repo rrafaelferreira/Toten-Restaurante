@@ -7,21 +7,21 @@ body {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    /* Remova o 100vh e use auto ou um valor fixo menor */
     height: 100%; 
-    min-height: 250px; /* Um tamanho suficiente para os seus círculos */
+    min-height: 250px; 
     display: flex;
     justify-content: center;
     align-items: flex-start;
     padding-top: 60px;
-    padding-bottom: 20px; /* Adicione um respiro embaixo se quiser */
+    padding-bottom: 20px; 
     background: #111;
+    box-sizing: border-box;
 }
 
 .carousel {
     cursor: grab;
     overflow-y: hidden;
-    overflow-x: hidden;
+    overflow-x: hidden; /* Mantém o corte limpo das laterais */
     width: 100%;
 }
 
@@ -29,22 +29,23 @@ body {
     display: flex;
     gap: 20px;
     justify-content: flex-start;
+    padding: 0 15px; /* Margem de segurança nas pontas ao arrastar */
 }
 
 .item {
-    padding: 14px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 220px;
-    flex-shrink: 0;
+    min-width: 180px; /* Reduzido de 220px para caber mais itens na visão mobile */
+    flex-shrink: 0;   /* Impede os círculos de deformarem */
     cursor: pointer;
-    transition: 0.3s;
+    transition: transform 0.3s, color 0.3s;
 }
 
 .item img {
-    width: 150px;
-    height: 150px;
+    width: 140px;    /* Sutilmente menor para dar mais equilíbrio em telas finas */
+    height: 140px;
     border-radius: 50%;
     object-fit: cover;
     pointer-events: none;
@@ -56,11 +57,12 @@ body {
 .item p {
     color: white;
     font-family: Arial, sans-serif;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: bold;
     margin: 0;
     text-align: center;
     transition: 0.3s;
+    white-space: nowrap; /* Impede o nome da categoria de quebrar linha feio no mobile */
 }
 
 .item:hover img {
@@ -76,4 +78,27 @@ body {
 
 .item.active p {
     color: #ffb000;
+}
+
+/* ========================================================
+   MEDIA QUERY: Ajuste extra para telas mini (até 400px)
+   ======================================================== */
+@media (max-width: 400px) {
+    .CarouselStructure {
+        padding-top: 30px; /* Reduz o topo vazio no celular */
+    }
+    
+    .item {
+        min-width: 140px;  /* Deixa os itens mais juntos para caberem no visor de 320px */
+        padding: 5px;
+    }
+
+    .item img {
+        width: 110px;      /* Círculos menores e ideais para visualização em totem mobile */
+        height: 110px;
+    }
+
+    .item p {
+        font-size: 0.95rem; /* Fonte compacta e legível */
+    }
 }

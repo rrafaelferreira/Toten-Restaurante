@@ -4,8 +4,9 @@ const CartContext = createContext();
 
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
+  const [orderType, setOrderType] = useState(""); // Estado para armazenar "Comer no Local" ou "Para Viagem"
 
-  // Adicionar ao carrinho
+  // Adicionar au carrinho
   const addToCart = (product) => {
     setCartItems((prevItems) => {
       // Verifica se o item já existe
@@ -51,9 +52,10 @@ export function CartProvider({ children }) {
     );
   };
 
-  // Limpar carrinho
+  // Limpar carrinho e resetar o tipo de pedido
   const clearCart = () => {
     setCartItems([]);
+    setOrderType(""); // Reseta a opção quando o carrinho for limpo
   };
 
   // Valor total
@@ -66,6 +68,8 @@ export function CartProvider({ children }) {
     <CartContext.Provider
       value={{
         cartItems,
+        orderType,       // Exporta o estado da escolha do pedido
+        setOrderType,    // Exporta a função para alterar a escolha
         addToCart,
         removeFromCart,
         updateQuantity,

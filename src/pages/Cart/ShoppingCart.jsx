@@ -3,13 +3,20 @@ import { useCart } from "../../Shop/Context/CartContext"; // Verifique se este c
 import { useNavigate } from "react-router-dom";
 
 function ShoppingCart() {
-  // Pegamos as funções do contexto. Certifique-se que o nome é 'updateQuantity' no seu CartContext
-  const { cartItems, removeFromCart, updateQuantity, totalValue } = useCart();
+  // Resgatamos o 'orderType' que guardamos no contexto global
+  const { cartItems, orderType, removeFromCart, updateQuantity, totalValue } = useCart();
   const navigate = useNavigate();
 
   return (
     <div className="cart-page">
       <h1 className="title-resumo">RESUMO DO PEDIDO</h1>
+
+      {/* EXIBIÇÃO DO TIPO DE PEDIDO (Comer no Local / Para Viagem) */}
+      {orderType && (
+        <div className="order-type-badge">
+          Tipo de pedido: <span>{orderType}</span>
+        </div>
+      )}
 
       <div className="cart-content-box">
         {cartItems.length === 0 ? (
@@ -47,7 +54,7 @@ function ShoppingCart() {
                 <button className="btn-voltar-simples" onClick={() => navigate("/menu")}>
                   Voltar ao menu
                 </button>
-                <button className="btn-checkout" onClick={() => alert("Finalizando...")}>
+                <button className="btn-checkout" onClick={() => alert(`Pedido Finalizado! Tipo: ${orderType}`)}>
                   Finalizar Pedido
                 </button>
               </div>
