@@ -1,16 +1,57 @@
-/* Layout Geral */
+/* ==========================================================================
+   LAYOUT GERAL DA PÁGINA
+   ========================================================================== */
+
 .menu-page {
     width: 100%;
     min-height: 100vh;
     background-color: #111;
     position: relative;
     padding-top: 20px;
-    padding-bottom: 120px; /* Garante espaço para o botão não sobrepor conteúdo */
-    overflow-x: hidden;
+    padding-bottom: 120px;
+    overflow: hidden;
     color: white;
 }
 
-/* Ícone do Carrinho */
+
+/* ==========================================================================
+   CONTEÚDO DO MENU
+   ========================================================================== */
+
+.conteudo-menu {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bg-secao-produtos {
+    width: 100%;
+}
+
+
+/* ==========================================================================
+   BOTÕES FLUTUANTES
+   ========================================================================== */
+
+.floating-user {
+    position: fixed;
+    top: 30px;
+    right: 130px;
+    background: linear-gradient(to right, #ff4e00, #ff8e00);
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    cursor: pointer;
+    box-shadow: 0 5px 20px rgba(255, 102, 0, 0.4);
+    transition: 0.2s ease;
+    z-index: 1000;
+}
+
 .floating-cart {
     position: fixed;
     top: 30px;
@@ -24,31 +65,53 @@
     align-items: center;
     font-size: 2rem;
     cursor: pointer;
-    z-index: 1000;
     box-shadow: 0 5px 20px rgba(255, 102, 0, 0.4);
-    transition: transform 0.2s ease;
+    transition: 0.2s ease;
+    z-index: 1000;
 }
 
-.floating-cart:active { transform: scale(0.9); }
+.floating-user:hover,
+.floating-user.ativo,
+.floating-cart:hover {
+    transform: scale(1.05);
+}
+
+.floating-user:active,
+.floating-cart:active {
+    transform: scale(0.92);
+}
+
+
+/* ==========================================================================
+   BADGE DO CARRINHO
+   ========================================================================== */
+
+.cart-icon {
+    position: relative;
+}
 
 .cart-badge {
     position: absolute;
-    top: 0;
-    right: 0;
-    background-color: white;
-    color: #ff4e00;
-    font-weight: 800;
-    font-size: 0.8rem;
+    top: -10px;
+    right: -10px;
     width: 25px;
     height: 25px;
     border-radius: 50%;
+    background-color: white;
+    color: #ff6600;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 2px solid #ff4e00;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border: 2px solid #ff6600;
 }
 
-/* --- BOTÃO VOLTAR CENTRALIZADO --- */
+
+/* ==========================================================================
+   BOTÃO VOLTAR
+   ========================================================================== */
+
 .menu-buttons {
     position: fixed;
     bottom: 30px;
@@ -57,13 +120,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 9999; /* Fica acima de tudo */
-    pointer-events: none; /* Container não bloqueia cliques no fundo */
+    z-index: 999;
+    pointer-events: none;
 }
 
-/* Estilização via classe do componente Button */
 .custom-button.back {
-    pointer-events: auto; /* O botão em si aceita cliques */
+    pointer-events: auto;
     background: rgba(255, 255, 255, 0.1);
     color: white;
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -73,7 +135,7 @@
     font-weight: 600;
     cursor: pointer;
     backdrop-filter: blur(10px);
-    transition: all 0.2s ease;
+    transition: 0.2s ease;
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     display: flex;
     justify-content: center;
@@ -89,18 +151,145 @@
     transform: scale(0.95);
 }
 
-/* Feedback Visual dos Cards e Categorias */
-.product-card {
-    transition: transform 0.3s ease, border 0.3s ease;
-    border: 2px solid transparent;
+
+/* ==========================================================================
+   MODAL OVERLAY (BLOQUEIA O SCROLL DO FUNDO)
+   ========================================================================== */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(8px);
+    z-index: 999999;
+    overflow: hidden; /* Garante que nenhuma rolagem aconteça por trás */
 }
 
-.product-card.selected-anim {
-    border-color: #ff6600 !important;
-    transform: scale(1.03);
-    box-shadow: 0 0 20px rgba(255, 102, 0, 0.3);
+
+/* ==========================================================================
+   CAIXA DO MODAL CORRIGIDA (LIMITADA E SEM ROLAGEM)
+   ========================================================================== */
+
+.modal-form-box {
+    width: 90%;
+    max-width: 440px; /* Evita que alargue demais */
+    height: auto; /* Deixa o container se adaptar ao conteúdo organicamente */
+    max-height: 90vh; /* Teto limite para segurança */
+    background: #111111; /* Deixando o fundo uniforme com o menu principal */
+    border: 1px solid #ff6600; /* Borda fina estilizada do totem */
+    border-radius: 24px;
+    padding: 35px 40px;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+    z-index: 1000000;
+    overflow: hidden; /* Remove de vez as barras de rolagem vertical/horizontal da caixa */
 }
 
-.category-item.active img {
-    border: 3px solid #ff6600;
+/* ==========================================================================
+   Ajustes Críticos para Compactar os Espaçamentos Internos do <Register />
+   ========================================================================== */
+
+/* Força o título "Cadastro" a se comportar sem margens exageradas */
+.modal-form-box h1, 
+.modal-form-box h2, 
+.modal-form-box .Cadastro h2 {
+    margin-top: 0 !important;
+    margin-bottom: 20px !important;
+    font-size: 1.8rem !important;
+    text-align: center;
+}
+
+/* Controla os blocos de formulário filhos */
+.modal-form-box form,
+.modal-form-box .Cadastro form {
+    height: auto !important; /* Quebra o height: 100% que vinha do outro arquivo */
+    display: flex;
+    flex-direction: column;
+    gap: 8px !important; /* Diminui o espaço morto entre os inputs */
+}
+
+/* Ajusta as labels e campos para ocupar menos espaço vertical */
+.modal-form-box label {
+    margin-bottom: 2px !important;
+    font-size: 0.9rem !important;
+}
+
+.modal-form-box input {
+    height: 44px !important; /* Força uma altura elegante e padrão nos inputs */
+    padding: 5px 15px !important;
+    margin-bottom: 5px !important;
+    font-size: 0.95rem !important;
+    border-radius: 8px !important;
+}
+
+/* Botão final de submissão do formulário ("Cadastrar") */
+.modal-form-box button[type="submit"],
+.modal-form-box form button {
+    margin-top: 15px !important;
+    height: 48px !important;
+}
+
+
+/* ==========================================================================
+   BOTÃO FECHAR MODAL (MANTIDO SEU ESTILO ORIGINAL COM REPOSICIONAMENTO)
+   ========================================================================== */
+
+.close-modal-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background: #ff6600;
+    color: white;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.2s ease;
+    z-index: 10;
+}
+
+.close-modal-btn:hover {
+    transform: scale(1.1);
+    background: #ff4e00;
+}
+
+
+/* ==========================================================================
+   RESPONSIVIDADE
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .floating-user {
+        width: 60px;
+        height: 60px;
+        right: 100px;
+        font-size: 1.6rem;
+    }
+
+    .floating-cart {
+        width: 60px;
+        height: 60px;
+        right: 20px;
+        font-size: 1.6rem;
+    }
+
+    .modal-form-box {
+        width: 92%;
+        padding: 25px 20px;
+    }
+
+    .custom-button.back {
+        width: 90%;
+        padding: 15px;
+    }
 }
