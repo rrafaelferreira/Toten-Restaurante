@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react"; // Adicionado useEffect aqui
+import { useNavigate, useLocation } from "react-router-dom"; // Adicionado useLocation aqui
 import { useCart } from "../../Shop/Context/CartContext";
 
 import ProductSection from "../../components/ProductSection/ProductsSection";
@@ -17,6 +17,17 @@ function Menu() {
   const [tipoFormulario, setTipoFormulario] = useState("cadastro");
   const { cartItems } = useCart();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.abrirModalCadastro) {
+      setTipoFormulario("cadastro");
+      setMostrarFormulario(true);
+
+      // Limpa o estado no histórico para o modal não reabrir se o usuário atualizar a página manualmente
+      window.history.replaceState({}, document.title);
+    }
+  }, [location]);
 
   const totalItems = cartItems.reduce(
     (acc, item) => acc + item.quantity,

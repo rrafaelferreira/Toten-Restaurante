@@ -1,90 +1,57 @@
+import { useState } from "react";
 import "./ShoppingCart.css";
-import { useCart } from "../../Shop/Context/CartContext"; // Verifique se este caminho está 100% certo
+import { useCart } from "../../Shop/Context/CartContext"; 
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { produtos } from "../../data/Products/Products"; // Importando sua lista de produtos estáticos
+
+import Register from "../../components/formularios/register/registers";
+import Login from "../../components/formularios/login/logins";
 
 function ShoppingCart() {
-  const { orderType } = useCart();
-  const navigate = useNavigate();
+  const { 
+    cartItems, 
+    orderType, 
+    removeFromCart, 
+    updateQuantity, 
+    totalValue,
+    user,
+    loginUser // <- Capturando a função para fazer o login no Context
+  } = useCart();
   
-  // Estados para gerenciar os itens vindos diretamente do banco de dados da API
-  const [cartItems, setCartItems] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
-  // Recupera o CPF limpo que salvamos no localStorage na etapa de Cadastro/Autenticação
-  const cpfUsuario = localStorage.getItem("cpf_usuario");
+  const [mostrarFormulario, setMostrarFormulario] = useState(false);
+  const [tipoFormulario, setTipoFormulario] = useState("cadastro");
 
-  // Hook para buscar os itens da API ao carregar o componente
-  useEffect(() => {
-    async function carregarCarrinho() {
-      if (!cpfUsuario) {
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const resposta = await fetch(`https://pedidos-totem.onrender.com/carrinho?cpf=${cpfUsuario}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json"
-          }
-        });
-
-        if (resposta.ok) {
-          const itensApi = await resposta.json();
-
-          // Cruzamos o 'idProduto' recebido da API com os detalhes do seu arquivo local 'Products.js'
-          const itensDetalhado = itensApi.map(itemApi => {
-            const detalheProduto = produtos.find(p => p.id === itemApi.idProduto);
-            
-            return {
-              id: itemApi.idProduto,
-              // Se o produto existir no arquivo local, pega as propriedades reais, senão define dados padrão
-              name: detalheProduto ? detalheProduto.name : `Produto #${itemApi.idProduto}`,
-              price: detalheProduto ? detalheProduto.price : 0,
-              quantity: 1 // Como a API lida por registro individual, inicializamos como 1 item por linha inserida
-            };
-          });
-
-          setCartItems(itensDetalhado);
-        }
-      } catch (erro) {
-        console.error("Erro ao carregar os dados do carrinho da API:", erro);
-      } finally {
-        setLoading(false);
-      }
+  const handleFinalizarPedido = () => {
+    if (!user) {
+      setTipoFormulario("cadastro");
+      setMostrarFormulario(true);
+    } else {
+      alert(`Pedido Finalizado com sucesso para ${user.nome}! Tipo: ${orderType}`);
     }
+  };
 
-    carregarCarrinho();
-  }, [cpfUsuario]);
-
-  // Calcula o valor total com base nos preços locais cruzados dos produtos ativos do estado
-  const totalValue = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-
-  // Funções de alteração visual locais mantendo a usabilidade da sua interface antiga
-  function updateQuantity(id, novaQtd) {
-    if (novaQtd < 1) return;
-    setCartItems(prev => prev.map(item => item.id === id ? { ...item, quantity: novaQtd } : item));
-  }
-
-  function removeFromCart(id) {
-    setCartItems(prev => prev.filter(item => item.id !== id));
-  }
-
-  if (loading) {
-    return (
-      <div className="cart-page">
-        <h1 className="title-resumo">CARREGANDO SEU PEDIDO...</h1>
-      </div>
-    );
-  }
+  // Função disparada pelo formulário de cadastro após o sucesso
+  const handleCadastroSucesso = (dadosUsuario) => {
+    loginUser({ nome: dadosUsuario.nome, cpf: dadosUsuario.cpf }); // Atualiza o Contexto global na hora
+    setMostrarFormulario(false); // Fecha o modal
+  };
 
   return (
     <div className="cart-page">
       <h1 className="title-resumo">RESUMO DO PEDIDO</h1>
 
-      {/* EXIBIÇÃO DO TIPO DE PEDIDO (Comer no Local / Para Viagem) */}
+      {/* Identificação visual do Usuário Logado */}
+      {user ? (
+        <div className="user-logged-badge">
+          👤 Modo Autoatendimento: <strong>{user.nome}</strong> ativo
+        </div>
+      ) : (
+        <div className="user-not-logged-badge">
+          ⚠️ Identifique-se para finalizar o pedido.
+        </div>
+      )}
+
       {orderType && (
         <div className="order-type-badge">
           Tipo de pedido: <span>{orderType}</span>
@@ -102,32 +69,59 @@ function ShoppingCart() {
         ) : (
           <>
             <div className="items-list">
-              {cartItems.map((item) => (
-                <div key={item.id} className="item-row">
-                  <div className="controls">
-                    {/* Botões de quantidade chamando a função local do componente */}
-                    <button className="btn-qty" onClick={() => updateQuantity(item.id, item.quantity - 1)}>-</button>
-                    <span className="qty-val">{item.quantity}x</span>
-                    <button className="btn-qty" onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
-                    <span className="name-prod">{item.name}</span>
+              {cartItems.map((item) => {
+                const idAtual = item.idProduto || item.id;
+                const nomeAtual = item.nomeProduto || item.name;
+                const precoAtual = item.preco || item.price || 0;
+
+                return (
+                  <div key={idAtual} className="item-row">
+                    <div className="controls">
+                      <button 
+                        className="btn-qty" 
+                        onClick={() => updateQuantity(idAtual, item.quantity - 1)}
+                      >
+                        -
+                      </button>
+                      
+                      <span className="qty-val">{item.quantity}x</span>
+                      
+                      <button 
+                        className="btn-qty" 
+                        onClick={() => updateQuantity(idAtual, item.quantity + 1)}
+                      >
+                        +
+                      </button>
+                      
+                      <span className="name-prod">{nomeAtual}</span>
+                    </div>
+                    
+                    <div className="price-info">
+                      <span>R$ {(precoAtual * item.quantity).toFixed(2).replace(".", ",")}</span>
+                      <button 
+                        className="btn-del" 
+                        onClick={() => removeFromCart(idAtual)}
+                      >
+                        remover
+                      </button>
+                    </div>
                   </div>
-                  
-                  <div className="price-info">
-                    <span>R$ {(item.price * item.quantity).toFixed(2).replace(".", ",")}</span>
-                    <button className="btn-del" onClick={() => removeFromCart(item.id)}>remover</button>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             <div className="footer-cart">
-              <h2 className="total-display">Total: R$ {totalValue.toFixed(2).replace(".", ",")}</h2>
+              <h2 className="total-display">
+                Total: R$ {totalValue.toFixed(2).replace(".", ",")}
+              </h2>
               <div className="group-btns">
-                {/* Botão de voltar corrigido com navigate */}
                 <button className="btn-voltar-simples" onClick={() => navigate("/menu")}>
                   Voltar ao menu
                 </button>
-                <button className="btn-checkout" onClick={() => alert(`Pedido Finalizado! Tipo: ${orderType}`)}>
+                <button 
+                  className="btn-checkout" 
+                  onClick={handleFinalizarPedido}
+                >
                   Finalizar Pedido
                 </button>
               </div>
@@ -135,6 +129,36 @@ function ShoppingCart() {
           </>
         )}
       </div>
+
+      {mostrarFormulario && (
+        <div
+          className="modal-overlay"
+          onClick={() => setMostrarFormulario(false)}
+        >
+          <div
+            className="modal-form-box"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="close-modal-btn"
+              onClick={() => setMostrarFormulario(false)}
+            >
+              ✕
+            </button>
+
+            {tipoFormulario === "cadastro" ? (
+              <Register
+                trocarParaLogin={() => setTipoFormulario("login")}
+                onCadastroSucesso={handleCadastroSucesso} // Conectando a função ao Modal de cadastro
+              />
+            ) : (
+              <Login
+                trocarParaCadastro={() => setTipoFormulario("cadastro")}
+              />
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

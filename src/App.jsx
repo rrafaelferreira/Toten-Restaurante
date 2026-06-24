@@ -1,23 +1,30 @@
 import { Routes, Route } from "react-router-dom";
 import { CartProvider } from "./Shop/Context/CartContext";
 
-// Importação das páginas (verifique se os nomes batem com as pastas reais!)
+// Importação das páginas
 import Home from "./pages/home/Home";
 import OrderType from "./pages/OrderType/OrderType";
 import Menu from "./pages/Menu/Menu"; 
 import ShoppingCart from "./pages/Cart/ShoppingCart";
+
+// --- NOVO: Importando suas telas prontas de Login e Cadastro ---
+import Logins from "./components/formularios/login/logins";
+import Registers from "./components/formularios/register/registers";
 
 import "./App.css";
 
 function App() {
   return (
     <CartProvider>
-      {/* O <Router> foi removido daqui porque já está no main.jsx */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/order-type" element={<OrderType />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/cart" element={<ShoppingCart />} />
+        
+        {/* --- NOVAS ROTAS --- */}
+        <Route path="/login" element={<Logins />} />
+        <Route path="/register" element={<Registers />} />
       </Routes>
     </CartProvider>
   );
