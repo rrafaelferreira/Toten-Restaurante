@@ -6,6 +6,7 @@ import Home from "./pages/home/Home";
 import OrderType from "./pages/OrderType/OrderType";
 import Menu from "./pages/Menu/Menu"; 
 import ShoppingCart from "./pages/Cart/ShoppingCart";
+import Payment from "./pages/Payments/payment";
 
 // --- NOVO: Importando suas telas prontas de Login e Cadastro ---
 import Logins from "./components/formularios/login/logins";
@@ -21,10 +22,9 @@ function App() {
         <Route path="/order-type" element={<OrderType />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/cart" element={<ShoppingCart />} />
-        
-        {/* --- NOVAS ROTAS --- */}
         <Route path="/login" element={<Logins />} />
         <Route path="/register" element={<Registers />} />
+        <Route path="/payment" element={<Payment />} />
       </Routes>
     </CartProvider>
   );

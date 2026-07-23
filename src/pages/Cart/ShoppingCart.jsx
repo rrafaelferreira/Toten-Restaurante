@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./ShoppingCart.css";
 import { useCart } from "../../Shop/Context/CartContext"; 
 import { useNavigate } from "react-router-dom";
@@ -14,7 +14,7 @@ function ShoppingCart() {
     updateQuantity, 
     totalValue,
     user,
-    loginUser // <- Capturando a função para fazer o login no Context
+    loginUser 
   } = useCart();
   
   const navigate = useNavigate();
@@ -22,41 +22,62 @@ function ShoppingCart() {
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [tipoFormulario, setTipoFormulario] = useState("cadastro");
 
+  // Recupera o tipo de pedido salvo no localStorage caso o contexto perca o estado no F5
+  const tipoPedidoExibicao = orderType || localStorage.getItem("tipo_pedido") || "Comer no Local";
+
+  useEffect(() => {
+    const cpfSalvo = localStorage.getItem("cpf_usuario");
+    const nomeSalvo = localStorage.getItem("nome_usuario");
+
+    if (cpfSalvo && !user) {
+      if (loginUser) {
+        loginUser({ nome: nomeSalvo || "Cliente", cpf: cpfSalvo });
+      }
+    }
+  }, [user, loginUser]);
+
   const handleFinalizarPedido = () => {
-    if (!user) {
+    const cpfSalvo = localStorage.getItem("cpf_usuario");
+
+    if (!user && !cpfSalvo) {
       setTipoFormulario("cadastro");
       setMostrarFormulario(true);
     } else {
-      alert(`Pedido Finalizado com sucesso para ${user.nome}! Tipo: ${orderType}`);
+      // Redireciona para a tela de pagamento em vez do alert
+      navigate("/payment"); // Altere a rota aqui caso sua rota seja /checkout
     }
   };
 
-  // Função disparada pelo formulário de cadastro após o sucesso
   const handleCadastroSucesso = (dadosUsuario) => {
-    loginUser({ nome: dadosUsuario.nome, cpf: dadosUsuario.cpf }); // Atualiza o Contexto global na hora
-    setMostrarFormulario(false); // Fecha o modal
+    if (loginUser) {
+      loginUser({ nome: dadosUsuario.nome, cpf: dadosUsuario.cpf });
+    }
+    setMostrarFormulario(false);
   };
+
+  const usuarioEstaAutenticado = Boolean(user || localStorage.getItem("cpf_usuario"));
+  const nomeExibicao = user?.nome || localStorage.getItem("nome_usuario") || "Cliente";
 
   return (
     <div className="cart-page">
       <h1 className="title-resumo">RESUMO DO PEDIDO</h1>
 
-      {/* Identificação visual do Usuário Logado */}
-      {user ? (
-        <div className="user-logged-badge">
-          👤 Modo Autoatendimento: <strong>{user.nome}</strong> ativo
-        </div>
-      ) : (
-        <div className="user-not-logged-badge">
-          ⚠️ Identifique-se para finalizar o pedido.
-        </div>
-      )}
+      {/* Informações de Usuário e Tipo de Pedido */}
+      <div className="cart-header-info">
+        {usuarioEstaAutenticado ? (
+          <div className="user-logged-badge">
+            👤 Cliente: <strong>{nomeExibicao}</strong>
+          </div>
+        ) : (
+          <div className="user-not-logged-badge">
+            ⚠️ Identifique-se para finalizar o pedido.
+          </div>
+        )}
 
-      {orderType && (
         <div className="order-type-badge">
-          Tipo de pedido: <span>{orderType}</span>
+          📍 Opção: <strong>{tipoPedidoExibicao}</strong>
         </div>
-      )}
+      </div>
 
       <div className="cart-content-box">
         {cartItems.length === 0 ? (
@@ -122,7 +143,7 @@ function ShoppingCart() {
                   className="btn-checkout" 
                   onClick={handleFinalizarPedido}
                 >
-                  Finalizar Pedido
+                  Ir para o Pagamento
                 </button>
               </div>
             </div>
@@ -149,11 +170,12 @@ function ShoppingCart() {
             {tipoFormulario === "cadastro" ? (
               <Register
                 trocarParaLogin={() => setTipoFormulario("login")}
-                onCadastroSucesso={handleCadastroSucesso} // Conectando a função ao Modal de cadastro
+                onCadastroSucesso={handleCadastroSucesso}
               />
             ) : (
               <Login
                 trocarParaCadastro={() => setTipoFormulario("cadastro")}
+                onLoginSucesso={handleCadastroSucesso}
               />
             )}
           </div>
@@ -164,3 +186,171 @@ function ShoppingCart() {
 }
 
 export default ShoppingCart;
+
+
+// import { useState } from "react";
+// import "./ShoppingCart.css";
+// import { useCart } from "../../Shop/Context/CartContext"; 
+// import { useNavigate } from "react-router-dom";
+
+// import Register from "../../components/formularios/register/registers";
+// import Login from "../../components/formularios/login/logins";
+
+// function ShoppingCart() {
+//   const { 
+//     cartItems, 
+//     orderType, 
+//     removeFromCart, 
+//     updateQuantity, 
+//     totalValue,
+//     user,
+//     loginUser // <- Capturando a função para fazer o login no Context
+//   } = useCart();
+  
+//   const navigate = useNavigate();
+
+//   const [mostrarFormulario, setMostrarFormulario] = useState(false);
+//   const [tipoFormulario, setTipoFormulario] = useState("cadastro");
+
+//   const handleFinalizarPedido = () => {
+//     if (!user) {
+//       setTipoFormulario("cadastro");
+//       setMostrarFormulario(true);
+//     } else {
+//       alert(`Pedido Finalizado com sucesso para ${user.nome}! Tipo: ${orderType}`);
+//     }
+//   };
+
+//   // Função disparada pelo formulário de cadastro após o sucesso
+//   const handleCadastroSucesso = (dadosUsuario) => {
+//     loginUser({ nome: dadosUsuario.nome, cpf: dadosUsuario.cpf }); // Atualiza o Contexto global na hora
+//     setMostrarFormulario(false); // Fecha o modal
+//   };
+
+//   return (
+//     <div className="cart-page">
+//       <h1 className="title-resumo">RESUMO DO PEDIDO</h1>
+
+//       {/* Identificação visual do Usuário Logado */}
+//       {user ? (
+//         <div className="user-logged-badge">
+//           👤 Modo Autoatendimento: <strong>{user.nome}</strong> ativo
+//         </div>
+//       ) : (
+//         <div className="user-not-logged-badge">
+//           ⚠️ Identifique-se para finalizar o pedido.
+//         </div>
+//       )}
+
+//       {orderType && (
+//         <div className="order-type-badge">
+//           Tipo de pedido: <span>{orderType}</span>
+//         </div>
+//       )}
+
+//       <div className="cart-content-box">
+//         {cartItems.length === 0 ? (
+//           <div className="empty-state">
+//             <p>O seu carrinho está vazio. 🍔</p>
+//             <button className="btn-voltar-simples" onClick={() => navigate("/menu")}>
+//               Voltar ao Menu
+//             </button>
+//           </div>
+//         ) : (
+//           <>
+//             <div className="items-list">
+//               {cartItems.map((item) => {
+//                 const idAtual = item.idProduto || item.id;
+//                 const nomeAtual = item.nomeProduto || item.name;
+//                 const precoAtual = item.preco || item.price || 0;
+
+//                 return (
+//                   <div key={idAtual} className="item-row">
+//                     <div className="controls">
+//                       <button 
+//                         className="btn-qty" 
+//                         onClick={() => updateQuantity(idAtual, item.quantity - 1)}
+//                       >
+//                         -
+//                       </button>
+                      
+//                       <span className="qty-val">{item.quantity}x</span>
+                      
+//                       <button 
+//                         className="btn-qty" 
+//                         onClick={() => updateQuantity(idAtual, item.quantity + 1)}
+//                       >
+//                         +
+//                       </button>
+                      
+//                       <span className="name-prod">{nomeAtual}</span>
+//                     </div>
+                    
+//                     <div className="price-info">
+//                       <span>R$ {(precoAtual * item.quantity).toFixed(2).replace(".", ",")}</span>
+//                       <button 
+//                         className="btn-del" 
+//                         onClick={() => removeFromCart(idAtual)}
+//                       >
+//                         remover
+//                       </button>
+//                     </div>
+//                   </div>
+//                 );
+//               })}
+//             </div>
+
+//             <div className="footer-cart">
+//               <h2 className="total-display">
+//                 Total: R$ {totalValue.toFixed(2).replace(".", ",")}
+//               </h2>
+//               <div className="group-btns">
+//                 <button className="btn-voltar-simples" onClick={() => navigate("/menu")}>
+//                   Voltar ao menu
+//                 </button>
+//                 <button 
+//                   className="btn-checkout" 
+//                   onClick={handleFinalizarPedido}
+//                 >
+//                   Finalizar Pedido
+//                 </button>
+//               </div>
+//             </div>
+//           </>
+//         )}
+//       </div>
+
+//       {mostrarFormulario && (
+//         <div
+//           className="modal-overlay"
+//           onClick={() => setMostrarFormulario(false)}
+//         >
+//           <div
+//             className="modal-form-box"
+//             onClick={(e) => e.stopPropagation()}
+//           >
+//             <button
+//               className="close-modal-btn"
+//               onClick={() => setMostrarFormulario(false)}
+//             >
+//               ✕
+//             </button>
+
+//             {tipoFormulario === "cadastro" ? (
+//               <Register
+//                 trocarParaLogin={() => setTipoFormulario("login")}
+//                 onCadastroSucesso={handleCadastroSucesso} // Conectando a função ao Modal de cadastro
+//               />
+//             ) : (
+//               <Login
+//                 trocarParaCadastro={() => setTipoFormulario("cadastro")}
+//               />
+//             )}
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   );
+// }
+
+// export default ShoppingCart;

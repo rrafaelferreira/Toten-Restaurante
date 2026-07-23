@@ -6,15 +6,23 @@ body {
 .CarouselStructure {
     width: 100%;
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 20px auto 0 auto; /* Adicionada margem superior para descolar do topo */
     height: 100%; 
     min-height: 250px; 
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    padding-top: 60px;
+    padding-top: 30px; /* Ajustado para alinhar melhor verticalmente com os cantos arredondados */
     padding-bottom: 20px; 
-    background: #111;
+    
+    /* ===== AJUSTE VIDRO (GLASSMORPHISM) ===== */
+    background: rgba(17, 17, 17, 0.65); /* Transparência suave */
+    backdrop-filter: blur(12px);         /* Desfoca o fundo que passa atrás */
+    -webkit-backdrop-filter: blur(12px); /* Compatibilidade Safari */
+    border-radius: 24px;                 /* Arredonda os cantos secos */
+    border: 1px solid rgba(255, 255, 255, 0.08); /* Borda fina estilizada */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);  /* Sombra sutil de elevação */
+    
     box-sizing: border-box;
 }
 
@@ -85,7 +93,9 @@ body {
    ======================================================== */
 @media (max-width: 400px) {
     .CarouselStructure {
-        padding-top: 30px; /* Reduz o topo vazio no celular */
+        padding-top: 20px; /* Reduz o topo vazio no celular */
+        margin-top: 10px;
+        border-radius: 16px;
     }
     
     .item {
